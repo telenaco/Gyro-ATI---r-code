@@ -1,2 +1,5 @@
-# Gyro-ATI---r-code
-r code to filter the data from the ATI load cell and compare it with the real time calculations
+##comparison of data between: 
+
+- DIY load cell and ATI mini 40
+- Equation long and short 
+- Gyro controller model and reading from ATI mini 40 (includes python model) 
