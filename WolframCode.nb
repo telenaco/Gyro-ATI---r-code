@@ -1,0 +1,868 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 12.3' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     34653,        860]
+NotebookOptionsPosition[     32310,        820]
+NotebookOutlinePosition[     32762,        837]
+CellTagsIndexPosition[     32719,        834]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"Imat", " ", "=", " ", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"1", "/", "4"}], "x"}], ",", "0", ",", "0"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"0", ",", 
+       RowBox[{
+        RowBox[{"1", "/", "4"}], "x"}], ",", "0"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"0", ",", "0", ",", 
+       RowBox[{
+        RowBox[{"1", "/", "2"}], "x"}]}], "}"}]}], "}"}]}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"oGimbal", " ", "=", " ", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"-", "\[Psi]"}], " ", 
+       RowBox[{"Sin", "[", "\[Omega]", "]"}]}], ")"}], ",", "\[Theta]", ",", 
+     RowBox[{"\[Psi]", " ", 
+      RowBox[{"Cos", "[", "\[Omega]", "]"}]}]}], "}"}]}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"oDisk", " ", "=", " ", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"-", "\[Psi]"}], " ", 
+       RowBox[{"Sin", "[", "\[Omega]", "]"}]}], ")"}], ",", "\[Theta]", ",", 
+     RowBox[{"\[Rho]", "+", 
+      RowBox[{"\[Psi]", " ", 
+       RowBox[{"Cos", "[", "\[Omega]", "]"}]}]}]}], "}"}]}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"accDisk", " ", "=", " ", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"-", "\[Delta]"}], " ", 
+        RowBox[{"Sin", "[", "\[Omega]", "]"}]}], ")"}], "-", 
+      RowBox[{"\[Psi]", " ", "\[Theta]", " ", 
+       RowBox[{"Cos", "[", "\[Omega]", "]"}]}]}], ",", "\[Alpha]", ",", 
+     RowBox[{"\[Mu]", "+", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"\[Delta]", " ", 
+         RowBox[{"Cos", "[", "\[Omega]", "]"}]}], "-", 
+        RowBox[{"\[Psi]", " ", "\[Theta]", " ", 
+         RowBox[{"Sin", "[", "\[Omega]", "]"}]}]}], ")"}]}]}], "}"}]}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"tmp1", " ", "=", " ", 
+   RowBox[{"Dot", "[", 
+    RowBox[{"Imat", ",", " ", "accDisk"}], "]"}]}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"tmp1", " ", "=", " ", 
+   RowBox[{"Simplify", "[", "tmp1", "]"}]}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"tmp2", " ", "=", " ", 
+   RowBox[{"Dot", "[", 
+    RowBox[{"Imat", ",", " ", "oDisk"}], "]"}]}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"tmp2", " ", "=", " ", 
+   RowBox[{"Simplify", "[", "tmp2", "]"}]}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"tmp3", " ", "=", " ", 
+   RowBox[{"Cross", "[", 
+    RowBox[{"oGimbal", ",", " ", "tmp2"}], "]"}]}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"tmp3", " ", "=", " ", 
+   RowBox[{"Simplify", "[", "tmp3", "]"}]}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"outputTorque", " ", "=", " ", 
+   RowBox[{"tmp1", " ", "+", " ", "tmp3"}]}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"outputTorque", " ", "=", " ", 
+   RowBox[{"Simplify", "[", "outputTorque", "]"}]}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Solve", "[", 
+   RowBox[{
+    RowBox[{
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{"1", "/", "4"}], ")"}], " ", "x", " ", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"2", " ", "\[Theta]", " ", "\[Rho]"}], "-", 
+        RowBox[{"\[Delta]", " ", 
+         RowBox[{"Sin", "[", "\[Omega]", "]"}]}]}], ")"}]}], "==", "M"}], ",",
+     "\[Delta]", ",", 
+    RowBox[{"MaxExtraConditions", "->", "Automatic"}]}], "]"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Solve", "[", 
+   RowBox[{
+    RowBox[{
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{"1", "/", "2"}], ")"}], " ", "x", " ", 
+      RowBox[{"(", 
+       RowBox[{"\[Mu]", "+", 
+        RowBox[{"\[Delta]", " ", 
+         RowBox[{"Cos", "[", "\[Omega]", "]"}]}], "-", 
+        RowBox[{"\[Theta]", " ", "\[Psi]", " ", 
+         RowBox[{"Sin", "[", "\[Omega]", "]"}]}]}], ")"}]}], "==", "M"}], ",",
+     "\[Delta]", ",", 
+    RowBox[{"MaxExtraConditions", "->", "Automatic"}]}], "]"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{"Solve", "[", 
+  RowBox[{
+   RowBox[{
+    RowBox[{
+     FractionBox["1", "4"], " ", "x", " ", 
+     RowBox[{"(", 
+      RowBox[{"\[Alpha]", "+", 
+       RowBox[{"\[Psi]", " ", 
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{"2", " ", "\[Rho]"}], "+", 
+          RowBox[{"\[Psi]", " ", 
+           RowBox[{"Cos", "[", "\[Omega]", "]"}]}]}], ")"}], " ", 
+        RowBox[{"Sin", "[", "\[Omega]", "]"}]}]}], ")"}]}], " ", "==", " ", 
+    "M"}], ",", " ", "\[Alpha]", ",", " ", 
+   RowBox[{"MaxExtraConditions", "->", "Automatic"}]}], 
+  "]"}], "\[IndentingNewLine]"}], "Input",
+ CellChangeTimes->{{3.8419818549643416`*^9, 3.8419818615358343`*^9}, {
+   3.8419820064101863`*^9, 3.8419820206605916`*^9}, {3.841982296921982*^9, 
+   3.8419823180677185`*^9}, {3.8419823898957896`*^9, 3.841982397430812*^9}, {
+   3.841982673906433*^9, 3.841982713553308*^9}, {3.84198281578597*^9, 
+   3.8419828225659943`*^9}, {3.841982867957063*^9, 3.8419829305667763`*^9}, {
+   3.841982960659865*^9, 3.841983025249053*^9}, {3.8419831308224087`*^9, 
+   3.841983148815755*^9}, {3.8419832785422955`*^9, 3.8419833476345325`*^9}, {
+   3.841983665569087*^9, 3.841983729111143*^9}, 3.8419837706264772`*^9, {
+   3.8419839439638157`*^9, 3.8419839901313467`*^9}, {3.841984511862011*^9, 
+   3.8419845135031357`*^9}, 3.8419846069130316`*^9, {3.8420051901303525`*^9, 
+   3.8420052233671803`*^9}, {3.8420060390093393`*^9, 
+   3.8420060631606045`*^9}, {3.842006112008825*^9, 3.8420061137849703`*^9}, {
+   3.8420061595571833`*^9, 3.8420061777433505`*^9}, {3.84200622981701*^9, 
+   3.842006258436041*^9}, {3.842006298572899*^9, 3.8420063241673555`*^9}, {
+   3.8420064592320757`*^9, 3.8420064879463587`*^9}, 3.8420069800177264`*^9, {
+   3.842007012905202*^9, 3.84200701609531*^9}, {3.84200712971739*^9, 
+   3.842007130683086*^9}, {3.842008148414152*^9, 3.8420081811248198`*^9}},
+ CellLabel->"In[1]:=",ExpressionUUID->"0e37d7de-939a-4238-ab3d-bccaf98624e0"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{
+     FractionBox["x", "4"], ",", "0", ",", "0"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"0", ",", 
+     FractionBox["x", "4"], ",", "0"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"0", ",", "0", ",", 
+     FractionBox["x", "2"]}], "}"}]}], "}"}]], "Output",
+ CellChangeTimes->{3.8420081911177683`*^9},
+ CellLabel->"Out[1]=",ExpressionUUID->"5bb5db7e-44c4-4784-8468-b56c095ecbb2"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"-", "\[Psi]"}], " ", 
+    RowBox[{"Sin", "[", "\[Omega]", "]"}]}], ",", "\[Theta]", ",", 
+   RowBox[{"\[Psi]", " ", 
+    RowBox[{"Cos", "[", "\[Omega]", "]"}]}]}], "}"}]], "Output",
+ CellChangeTimes->{3.8420081911357727`*^9},
+ CellLabel->"Out[2]=",ExpressionUUID->"ab8e63c0-fe21-4dc7-bcf3-5280297cdc61"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"-", "\[Psi]"}], " ", 
+    RowBox[{"Sin", "[", "\[Omega]", "]"}]}], ",", "\[Theta]", ",", 
+   RowBox[{"\[Rho]", "+", 
+    RowBox[{"\[Psi]", " ", 
+     RowBox[{"Cos", "[", "\[Omega]", "]"}]}]}]}], "}"}]], "Output",
+ CellChangeTimes->{3.8420081911447678`*^9},
+ CellLabel->"Out[3]=",ExpressionUUID->"19cd4731-d1a2-4cf1-be2e-e6d584aec305"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{
+    RowBox[{
+     RowBox[{"-", "\[Theta]"}], " ", "\[Psi]", " ", 
+     RowBox[{"Cos", "[", "\[Omega]", "]"}]}], "-", 
+    RowBox[{"\[Delta]", " ", 
+     RowBox[{"Sin", "[", "\[Omega]", "]"}]}]}], ",", "\[Alpha]", ",", 
+   RowBox[{"\[Mu]", "+", 
+    RowBox[{"\[Delta]", " ", 
+     RowBox[{"Cos", "[", "\[Omega]", "]"}]}], "-", 
+    RowBox[{"\[Theta]", " ", "\[Psi]", " ", 
+     RowBox[{"Sin", "[", "\[Omega]", "]"}]}]}]}], "}"}]], "Output",
+ CellChangeTimes->{3.8420081911537685`*^9},
+ CellLabel->"Out[4]=",ExpressionUUID->"2536d68f-9ba4-45cf-bdcf-0c0c2cb28acf"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{
+    FractionBox["1", "4"], " ", "x", " ", 
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"-", "\[Theta]"}], " ", "\[Psi]", " ", 
+       RowBox[{"Cos", "[", "\[Omega]", "]"}]}], "-", 
+      RowBox[{"\[Delta]", " ", 
+       RowBox[{"Sin", "[", "\[Omega]", "]"}]}]}], ")"}]}], ",", 
+   FractionBox[
+    RowBox[{"x", " ", "\[Alpha]"}], "4"], ",", 
+   RowBox[{
+    FractionBox["1", "2"], " ", "x", " ", 
+    RowBox[{"(", 
+     RowBox[{"\[Mu]", "+", 
+      RowBox[{"\[Delta]", " ", 
+       RowBox[{"Cos", "[", "\[Omega]", "]"}]}], "-", 
+      RowBox[{"\[Theta]", " ", "\[Psi]", " ", 
+       RowBox[{"Sin", "[", "\[Omega]", "]"}]}]}], ")"}]}]}], "}"}]], "Output",
+ CellChangeTimes->{3.8420081911627684`*^9},
+ CellLabel->"Out[5]=",ExpressionUUID->"534f7ac3-5d6d-47be-9a16-b4f1528f9898"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"-", 
+     FractionBox["1", "4"]}], " ", "x", " ", 
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{"\[Theta]", " ", "\[Psi]", " ", 
+       RowBox[{"Cos", "[", "\[Omega]", "]"}]}], "+", 
+      RowBox[{"\[Delta]", " ", 
+       RowBox[{"Sin", "[", "\[Omega]", "]"}]}]}], ")"}]}], ",", 
+   FractionBox[
+    RowBox[{"x", " ", "\[Alpha]"}], "4"], ",", 
+   RowBox[{
+    FractionBox["1", "2"], " ", "x", " ", 
+    RowBox[{"(", 
+     RowBox[{"\[Mu]", "+", 
+      RowBox[{"\[Delta]", " ", 
+       RowBox[{"Cos", "[", "\[Omega]", "]"}]}], "-", 
+      RowBox[{"\[Theta]", " ", "\[Psi]", " ", 
+       RowBox[{"Sin", "[", "\[Omega]", "]"}]}]}], ")"}]}]}], "}"}]], "Output",
+ CellChangeTimes->{3.842008191172768*^9},
+ CellLabel->"Out[6]=",ExpressionUUID->"e3e5929e-4f0a-40d2-aa38-39c62081fba1"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"-", 
+     FractionBox["1", "4"]}], " ", "x", " ", "\[Psi]", " ", 
+    RowBox[{"Sin", "[", "\[Omega]", "]"}]}], ",", 
+   FractionBox[
+    RowBox[{"x", " ", "\[Theta]"}], "4"], ",", 
+   RowBox[{
+    FractionBox["1", "2"], " ", "x", " ", 
+    RowBox[{"(", 
+     RowBox[{"\[Rho]", "+", 
+      RowBox[{"\[Psi]", " ", 
+       RowBox[{"Cos", "[", "\[Omega]", "]"}]}]}], ")"}]}]}], "}"}]], "Output",
+ CellChangeTimes->{3.8420081911817675`*^9},
+ CellLabel->"Out[7]=",ExpressionUUID->"ca20c37b-ae41-4a51-8b0a-ad384a3dd6c8"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"-", 
+     FractionBox["1", "4"]}], " ", "x", " ", "\[Psi]", " ", 
+    RowBox[{"Sin", "[", "\[Omega]", "]"}]}], ",", 
+   FractionBox[
+    RowBox[{"x", " ", "\[Theta]"}], "4"], ",", 
+   RowBox[{
+    FractionBox["1", "2"], " ", "x", " ", 
+    RowBox[{"(", 
+     RowBox[{"\[Rho]", "+", 
+      RowBox[{"\[Psi]", " ", 
+       RowBox[{"Cos", "[", "\[Omega]", "]"}]}]}], ")"}]}]}], "}"}]], "Output",
+ CellChangeTimes->{3.8420081911917677`*^9},
+ CellLabel->"Out[8]=",ExpressionUUID->"4e46c7e5-1d62-40a7-b887-8164ae1335d0"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{
+    FractionBox[
+     RowBox[{"x", " ", "\[Theta]", " ", "\[Rho]"}], "2"], "+", 
+    RowBox[{
+     FractionBox["1", "4"], " ", "x", " ", "\[Theta]", " ", "\[Psi]", " ", 
+     RowBox[{"Cos", "[", "\[Omega]", "]"}]}]}], ",", 
+   RowBox[{
+    RowBox[{
+     FractionBox["1", "2"], " ", "x", " ", "\[Rho]", " ", "\[Psi]", " ", 
+     RowBox[{"Sin", "[", "\[Omega]", "]"}]}], "+", 
+    RowBox[{
+     FractionBox["1", "4"], " ", "x", " ", 
+     SuperscriptBox["\[Psi]", "2"], " ", 
+     RowBox[{"Cos", "[", "\[Omega]", "]"}], " ", 
+     RowBox[{"Sin", "[", "\[Omega]", "]"}]}]}], ",", "0"}], "}"}]], "Output",
+ CellChangeTimes->{3.842008191201768*^9},
+ CellLabel->"Out[9]=",ExpressionUUID->"34670c47-7d7e-42ef-aa46-4edfe8d01fc2"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{
+    FractionBox["1", "4"], " ", "x", " ", "\[Theta]", " ", 
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{"2", " ", "\[Rho]"}], "+", 
+      RowBox[{"\[Psi]", " ", 
+       RowBox[{"Cos", "[", "\[Omega]", "]"}]}]}], ")"}]}], ",", 
+   RowBox[{
+    FractionBox["1", "4"], " ", "x", " ", "\[Psi]", " ", 
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{"2", " ", "\[Rho]"}], "+", 
+      RowBox[{"\[Psi]", " ", 
+       RowBox[{"Cos", "[", "\[Omega]", "]"}]}]}], ")"}], " ", 
+    RowBox[{"Sin", "[", "\[Omega]", "]"}]}], ",", "0"}], "}"}]], "Output",
+ CellChangeTimes->{3.842008191214827*^9},
+ CellLabel->"Out[10]=",ExpressionUUID->"9224f679-cf53-4bbd-956a-58e0cd79f33a"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{
+    RowBox[{
+     FractionBox["1", "4"], " ", "x", " ", "\[Theta]", " ", 
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"2", " ", "\[Rho]"}], "+", 
+       RowBox[{"\[Psi]", " ", 
+        RowBox[{"Cos", "[", "\[Omega]", "]"}]}]}], ")"}]}], "-", 
+    RowBox[{
+     FractionBox["1", "4"], " ", "x", " ", 
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"\[Theta]", " ", "\[Psi]", " ", 
+        RowBox[{"Cos", "[", "\[Omega]", "]"}]}], "+", 
+       RowBox[{"\[Delta]", " ", 
+        RowBox[{"Sin", "[", "\[Omega]", "]"}]}]}], ")"}]}]}], ",", 
+   RowBox[{
+    FractionBox[
+     RowBox[{"x", " ", "\[Alpha]"}], "4"], "+", 
+    RowBox[{
+     FractionBox["1", "4"], " ", "x", " ", "\[Psi]", " ", 
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"2", " ", "\[Rho]"}], "+", 
+       RowBox[{"\[Psi]", " ", 
+        RowBox[{"Cos", "[", "\[Omega]", "]"}]}]}], ")"}], " ", 
+     RowBox[{"Sin", "[", "\[Omega]", "]"}]}]}], ",", 
+   RowBox[{
+    FractionBox["1", "2"], " ", "x", " ", 
+    RowBox[{"(", 
+     RowBox[{"\[Mu]", "+", 
+      RowBox[{"\[Delta]", " ", 
+       RowBox[{"Cos", "[", "\[Omega]", "]"}]}], "-", 
+      RowBox[{"\[Theta]", " ", "\[Psi]", " ", 
+       RowBox[{"Sin", "[", "\[Omega]", "]"}]}]}], ")"}]}]}], "}"}]], "Output",
+ CellChangeTimes->{3.8420081912267675`*^9},
+ CellLabel->"Out[11]=",ExpressionUUID->"98852a23-57cd-4668-9309-76afd08dac1e"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{
+    FractionBox["1", "4"], " ", "x", " ", 
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{"2", " ", "\[Theta]", " ", "\[Rho]"}], "-", 
+      RowBox[{"\[Delta]", " ", 
+       RowBox[{"Sin", "[", "\[Omega]", "]"}]}]}], ")"}]}], ",", 
+   RowBox[{
+    FractionBox["1", "4"], " ", "x", " ", 
+    RowBox[{"(", 
+     RowBox[{"\[Alpha]", "+", 
+      RowBox[{"\[Psi]", " ", 
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"2", " ", "\[Rho]"}], "+", 
+         RowBox[{"\[Psi]", " ", 
+          RowBox[{"Cos", "[", "\[Omega]", "]"}]}]}], ")"}], " ", 
+       RowBox[{"Sin", "[", "\[Omega]", "]"}]}]}], ")"}]}], ",", 
+   RowBox[{
+    FractionBox["1", "2"], " ", "x", " ", 
+    RowBox[{"(", 
+     RowBox[{"\[Mu]", "+", 
+      RowBox[{"\[Delta]", " ", 
+       RowBox[{"Cos", "[", "\[Omega]", "]"}]}], "-", 
+      RowBox[{"\[Theta]", " ", "\[Psi]", " ", 
+       RowBox[{"Sin", "[", "\[Omega]", "]"}]}]}], ")"}]}]}], "}"}]], "Output",
+ CellChangeTimes->{3.8420081912377677`*^9},
+ CellLabel->"Out[12]=",ExpressionUUID->"34d409c9-a364-419f-99ff-8f6766981047"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"{", 
+   RowBox[{"\[Delta]", "\[Rule]", 
+    FractionBox[
+     RowBox[{"2", " ", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"-", "2"}], " ", "M"}], "+", 
+        RowBox[{"x", " ", "\[Theta]", " ", "\[Rho]"}]}], ")"}], " ", 
+      RowBox[{"Csc", "[", "\[Omega]", "]"}]}], "x"]}], "}"}], "}"}]], "Output",
+ CellChangeTimes->{3.842008191245767*^9},
+ CellLabel->"Out[13]=",ExpressionUUID->"4335d93e-8bf6-49ff-8ba1-000d041ae99a"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"{", 
+   RowBox[{"\[Delta]", "\[Rule]", 
+    FractionBox[
+     RowBox[{
+      RowBox[{"Sec", "[", "\[Omega]", "]"}], " ", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"2", " ", "M"}], "-", 
+        RowBox[{"x", " ", "\[Mu]"}], "+", 
+        RowBox[{"x", " ", "\[Theta]", " ", "\[Psi]", " ", 
+         RowBox[{"Sin", "[", "\[Omega]", "]"}]}]}], ")"}]}], "x"]}], "}"}], 
+  "}"}]], "Output",
+ CellChangeTimes->{3.8420081912557745`*^9},
+ CellLabel->"Out[14]=",ExpressionUUID->"14b0b3ec-2d59-4469-8402-ab0d697b64b2"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"{", 
+   RowBox[{"\[Alpha]", "\[Rule]", 
+    FractionBox[
+     RowBox[{
+      RowBox[{"4", " ", "M"}], "-", 
+      RowBox[{"2", " ", "x", " ", "\[Rho]", " ", "\[Psi]", " ", 
+       RowBox[{"Sin", "[", "\[Omega]", "]"}]}], "-", 
+      RowBox[{"x", " ", 
+       SuperscriptBox["\[Psi]", "2"], " ", 
+       RowBox[{"Cos", "[", "\[Omega]", "]"}], " ", 
+       RowBox[{"Sin", "[", "\[Omega]", "]"}]}]}], "x"]}], "}"}], 
+  "}"}]], "Output",
+ CellChangeTimes->{3.842008191263774*^9},
+ CellLabel->"Out[15]=",ExpressionUUID->"4590a08f-bcfd-4e27-8f76-2c556b4546dd"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"First", "[", 
+  RowBox[{"{", 
+   RowBox[{"{", 
+    RowBox[{"\[Alpha]", "\[Rule]", 
+     FractionBox[
+      RowBox[{
+       RowBox[{"4", " ", "M"}], "-", 
+       RowBox[{"2", " ", "x", " ", "\[Rho]", " ", "\[Psi]", " ", 
+        RowBox[{"Sin", "[", "\[Omega]", "]"}]}], "-", 
+       RowBox[{"x", " ", 
+        SuperscriptBox["\[Psi]", "2"], " ", 
+        RowBox[{"Cos", "[", "\[Omega]", "]"}], " ", 
+        RowBox[{"Sin", "[", "\[Omega]", "]"}]}]}], "x"]}], "}"}], "}"}], 
+  "]"}]], "Input",
+ NumberMarks->False,
+ CellLabel->"In[16]:=",ExpressionUUID->"61f9914e-6bda-410d-8c75-07e4c65acc09"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"\[Alpha]", "\[Rule]", 
+   FractionBox[
+    RowBox[{
+     RowBox[{"4", " ", "M"}], "-", 
+     RowBox[{"2", " ", "x", " ", "\[Rho]", " ", "\[Psi]", " ", 
+      RowBox[{"Sin", "[", "\[Omega]", "]"}]}], "-", 
+     RowBox[{"x", " ", 
+      SuperscriptBox["\[Psi]", "2"], " ", 
+      RowBox[{"Cos", "[", "\[Omega]", "]"}], " ", 
+      RowBox[{"Sin", "[", "\[Omega]", "]"}]}]}], "x"]}], "}"}]], "Output",
+ CellChangeTimes->{3.842008218408614*^9},
+ CellLabel->"Out[16]=",ExpressionUUID->"97c6b816-b1e5-412f-a635-3ba77e054690"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ NamespaceBox["WolframAlphaQueryResults",
+  DynamicModuleBox[{Typeset`q$$ = 
+   "Solve[1/4 x (\[Alpha] + \[Psi] (2 \[Rho] + \[Psi] Cos[\[Omega]]) Sin[\
+\[Omega]]) == M, \[Alpha]]", Typeset`opts$$ = {
+   AppearanceElements -> {
+     "Extrusion", "Warnings", "Assumptions", "Pods", "Unsuccessful"}, 
+    Asynchronous -> All, 
+    Method -> {
+     "ExtrusionChosen" -> {
+       "Fast parse", "Fast parse", 1, 0, "Input", 
+        "Solve[(1/4)*x*(\[Alpha] + PolyGamma[2*\[Rho] + \
+\[Psi]*Cos[\[Omega]]]*Sin[\[Omega]]) == M, \[Alpha], MaxExtraConditions -> \
+Automatic]"}, "ExtrusionOpen" -> True, 
+      "Formats" -> {"cell", "minput", "moutput", "msound", "dataformats"}}}, 
+   Typeset`elements$$ = {
+   "Extrusion", "Warnings", "Assumptions", "Pods", "Unsuccessful"}, 
+   Typeset`pod1$$ = XMLElement[
+   "pod", {"title" -> "Input interpretation", "scanner" -> "Identity", "id" -> 
+     "Input", "position" -> "100", "error" -> "false", "numsubpods" -> "1"}, {
+     XMLElement["subpod", {"title" -> ""}, {
+       XMLElement[
+       "minput", {}, {
+        "Solve[(1/4) x (\[Alpha] + PolyGamma[2 \[Rho] + \[Psi] Cos[\[Omega]]] \
+Sin[\[Omega]]) == M, \[Alpha], MaxExtraConditions -> Automatic]"}], 
+       XMLElement["cell", {"compressed" -> False, "string" -> True}, {
+         Cell[
+          BoxData[
+           FormBox[
+            TagBox[
+             TagBox[
+              GridBox[{{
+                 PaneBox[
+                  StyleBox[
+                   TagBox[
+                    GridBox[{{
+                    StyleBox[
+                    "\"solve\"", {
+                    LineIndent -> 0, LineSpacing -> {0.9, 0, 1.5}}], 
+                    TagBox[
+                    RowBox[{
+                    RowBox[{
+                    TagBox[
+                    FractionBox["1", "4"], 
+                    PolynomialForm[#, TraditionalOrder -> False]& ], " ", "x",
+                     " ", 
+                    RowBox[{"(", 
+                    RowBox[{"\[Alpha]", "+", 
+                    RowBox[{
+                    TemplateBox[{
+                    RowBox[{
+                    RowBox[{"2", " ", "\[Rho]"}], "+", 
+                    RowBox[{"\[Psi]", " ", 
+                    RowBox[{"cos", "(", "\[Omega]", ")"}]}]}]}, "PolyGamma"], 
+                    " ", 
+                    RowBox[{"sin", "(", "\[Omega]", ")"}]}]}], ")"}]}], 
+                    "\[LongEqual]", "M"}], HoldForm], 
+                    StyleBox["\" for \"", {
+                    GrayLevel[0.6], 
+                    LinebreakAdjustments -> {1, 100, 1, 0, 100}, LineIndent -> 
+                    0}], "\[Alpha]"}}, GridBoxBackground -> {"Columns" -> {
+                    GrayLevel[0.949], None, None, None}, "Rows" -> {{None}}}, 
+                    GridBoxItemSize -> {
+                    "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+                    ColumnsEqual -> False, RowsEqual -> False, 
+                    GridBoxDividers -> {"Columns" -> {
+                    GrayLevel[0.84], 
+                    GrayLevel[0.84], 
+                    GrayLevel[0.84], 
+                    GrayLevel[0.84], 
+                    GrayLevel[0.84]}, "Rows" -> {{
+                    GrayLevel[0.84]}}, 
+                    "RowsIndexed" -> {
+                    1 -> GrayLevel[0.84], -1 -> GrayLevel[0.84]}}, 
+                    GridBoxSpacings -> {
+                    "Columns" -> {2, 2, 2, 2, 2}, "Rows" -> {{1}}}, 
+                    GridBoxAlignment -> {
+                    "Columns" -> {{Left}}, "Rows" -> {{Baseline}}}, 
+                    AllowScriptLevelChange -> False, BaselinePosition -> 1], 
+                    $CellContext`TagBoxWrapper["Separator" -> " "]], 
+                   LineSpacing -> {1, 0, 1.5}, LineIndent -> 0], 
+                  BaselinePosition -> Center]}}, 
+               GridBoxItemSize -> {
+                "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+               ColumnsEqual -> False, RowsEqual -> False, 
+               GridBoxSpacings -> {"Columns" -> {{
+                    AbsoluteThickness[-1]}}, "Rows" -> {{0}}}, 
+               AllowScriptLevelChange -> False], 
+              $CellContext`TagBoxWrapper["Separator" -> " "]], 
+             PolynomialForm[#, TraditionalOrder -> False]& ], 
+            TraditionalForm]], "Output", {
+          Background -> None, 
+           GraphicsBoxOptions -> {
+            DefaultBaseStyle -> {FontFamily -> "Times", "Graphics"}, 
+             DefaultAxesStyle -> Directive[
+               GrayLevel[0, 0.35], FontColor -> GrayLevel[0.25], FontOpacity -> 
+               1, "GraphicsAxes"], DefaultFrameStyle -> Directive[
+               GrayLevel[0, 0.35], FontColor -> GrayLevel[0.25], FontOpacity -> 
+               1, "GraphicsFrame"], DefaultFrameTicksStyle -> 
+             Directive[
+              FontFamily -> "Times", FontSize -> 10, "GraphicsFrameTicks"], 
+             DefaultTicksStyle -> 
+             Directive[
+              FontFamily -> "Times", FontSize -> 10, "GraphicsTicks"]}, 
+           Graphics3DBoxOptions -> {
+            DefaultBaseStyle -> {FontFamily -> "Times", "Graphics3D"}}}, 
+          NumberPoint -> ".", CellSize -> {550, Automatic}, 
+          AutoStyleOptions -> {"HighlightFormattingErrors" -> False}, 
+          RenderingOptions -> {
+           "3DRenderingMethod" -> "BSPTreeOrDepthBuffer"}]}], 
+       XMLElement["dataformats", {}, {"plaintext,minput"}]}], 
+     XMLElement["expressiontypes", {"count" -> "1"}, {"\n   ", 
+       XMLElement["expressiontype", {"name" -> "Default"}, {}], "\n  "}], 
+     XMLElement["infos", {"count" -> "1"}, {
+       XMLElement["info", {"text" -> "\[Psi](x) is the digamma function"}, {
+         XMLElement[
+         "link", {
+          "url" -> "http://reference.wolfram.com/language/ref/PolyGamma.html",
+            "text" -> "Documentation", "title" -> "Mathematica"}, {}], 
+         XMLElement[
+         "link", {
+          "url" -> "http://functions.wolfram.com/GammaBetaErf/PolyGamma", 
+           "text" -> "Properties", "title" -> "Wolfram Functions Site"}, {}], 
+         XMLElement[
+         "link", {
+          "url" -> "http://mathworld.wolfram.com/DigammaFunction.html", 
+           "text" -> "Definition", "title" -> "MathWorld"}, {}]}]}]}], 
+   Typeset`pod2$$ = XMLElement[
+   "pod", {"title" -> "Result", "scanner" -> "Solve", "id" -> "Result", 
+     "position" -> "200", "error" -> "false", "numsubpods" -> "1", "primary" -> 
+     "true"}, {
+     XMLElement["subpod", {"title" -> "", "primary" -> "true"}, {
+       XMLElement[
+       "minput", {}, {
+        "Reduce[(x (\[Alpha] + PolyGamma[0, 2 \[Rho] + \[Psi] Cos[\[Omega]]] \
+Sin[\[Omega]]))/4 == M, {\[Alpha]}, Complexes]"}], 
+       XMLElement[
+       "moutput", {}, {
+        "\[Alpha] == (4 M - x PolyGamma[0, 2 \[Rho] + \[Psi] Cos[\[Omega]]] \
+Sin[\[Omega]])/x && x != 0"}], 
+       XMLElement["cell", {"compressed" -> False, "string" -> True}, {
+         Cell[
+          BoxData[
+           FormBox[
+            TemplateBox[{
+              StyleBox["\" and \"", {
+                GrayLevel[0.6], LinebreakAdjustments -> {1, 100, 1, 0, 100}, 
+                LineIndent -> 0}], 
+              RowBox[{"\[Alpha]", "\[LongEqual]", 
+                TagBox[
+                 RowBox[{
+                   FractionBox[
+                    RowBox[{"4", " ", "M"}], "x"], "-", 
+                   RowBox[{
+                    RowBox[{"sin", "(", "\[Omega]", ")"}], " ", 
+                    TemplateBox[{"0", 
+                    RowBox[{
+                    RowBox[{"2", " ", "\[Rho]"}], "+", 
+                    RowBox[{"\[Psi]", " ", 
+                    RowBox[{"cos", "(", "\[Omega]", ")"}]}]}]}, 
+                    "PolyGamma2"]}]}], Identity]}], 
+              RowBox[{"x", "\[NotEqual]", "0"}]}, "RowWithSeparator"], 
+            TraditionalForm]], "Output", {
+          Background -> None, 
+           GraphicsBoxOptions -> {
+            DefaultBaseStyle -> {FontFamily -> "Times", "Graphics"}, 
+             DefaultAxesStyle -> Directive[
+               GrayLevel[0, 0.35], FontColor -> GrayLevel[0.25], FontOpacity -> 
+               1, "GraphicsAxes"], DefaultFrameStyle -> Directive[
+               GrayLevel[0, 0.35], FontColor -> GrayLevel[0.25], FontOpacity -> 
+               1, "GraphicsFrame"], DefaultFrameTicksStyle -> 
+             Directive[
+              FontFamily -> "Times", FontSize -> 10, "GraphicsFrameTicks"], 
+             DefaultTicksStyle -> 
+             Directive[
+              FontFamily -> "Times", FontSize -> 10, "GraphicsTicks"]}, 
+           Graphics3DBoxOptions -> {
+            DefaultBaseStyle -> {FontFamily -> "Times", "Graphics3D"}}}, 
+          NumberPoint -> ".", CellSize -> {550, Automatic}, 
+          AutoStyleOptions -> {"HighlightFormattingErrors" -> False}, 
+          RenderingOptions -> {
+           "3DRenderingMethod" -> "BSPTreeOrDepthBuffer"}]}], 
+       XMLElement[
+       "dataformats", {}, {
+        "plaintext,minput,moutput,computabledata,formatteddata,formuladata"}]}\
+], 
+     XMLElement["expressiontypes", {"count" -> "1"}, {"\n   ", 
+       XMLElement["expressiontype", {"name" -> "Default"}, {}], "\n  "}], 
+     XMLElement["infos", {"count" -> "1"}, {
+       XMLElement[
+       "info", {
+        "text" -> 
+         "polygamma(n, x) is the nth derivative of the digamma function"}, {
+         XMLElement[
+         "link", {
+          "url" -> "http://reference.wolfram.com/language/ref/PolyGamma.html",
+            "text" -> "Documentation", "title" -> "Mathematica"}, {}], 
+         XMLElement[
+         "link", {
+          "url" -> "http://functions.wolfram.com/GammaBetaErf/PolyGamma2", 
+           "text" -> "Properties", "title" -> "Wolfram Functions Site"}, {}], 
+         XMLElement[
+         "link", {
+          "url" -> "http://mathworld.wolfram.com/PolygammaFunction.html", 
+           "text" -> "Definition", "title" -> "MathWorld"}, {}]}]}]}], 
+   Typeset`aux1$$ = {True, False, {False}, True}, Typeset`aux2$$ = {
+   True, False, {False}, True}, Typeset`asyncpods$$ = {}, Typeset`nonpods$$ = {
+    XMLElement["assumptions", {"count" -> "1"}, {
+      XMLElement[
+      "assumption", {
+       "type" -> "Clash", "word" -> "M", "template" -> 
+        "Assuming \"M\" is a variable${separator}Use as ${desc} instead", 
+        "count" -> "2", "pulldown" -> "false", "default" -> 
+        "{\"C\", \"M\"} -> {\"Variable\", \"dflt\"}"}, {
+        XMLElement[
+        "value", {
+         "name" -> "Variable", "desc" -> "a variable", "input" -> 
+          "{\"C\", \"M\"} -> {\"Variable\"}"}, {}], 
+        XMLElement[
+        "value", {
+         "name" -> "RomanNumeral", "desc" -> "a roman numeral", "input" -> 
+          "{\"C\", \"M\"} -> {\"RomanNumeral\"}"}, {}]}]}]}, 
+   Typeset`initdone$$ = FrontEnd`SuppressEvaluationHash[True], 
+   Typeset`queryinfo$$ = {
+   "success" -> "true", "error" -> 
+    "false", {"http://www.w3.org/XML/1998/namespace", "space"} -> "preserve", 
+    "numpods" -> "2", "datatypes" -> "Solve", "timedout" -> "", 
+    "timedoutpods" -> "", "timing" -> "1.839", "parsetiming" -> "1.438", 
+    "parsetimedout" -> "false", "recalculate" -> "", "id" -> 
+    "MSP395416b51762144e78f4000024fchg4g79575211", "host" -> 
+    "https://www4b.wolframalpha.com", "server" -> "33", "related" -> 
+    "https://www4b.wolframalpha.com/api/v1/relatedQueries.jsp?id=\
+MSPa395516b51762144e78f4000041ighhc4c6chb7d04003125516353033000", "version" -> 
+    "2.6", "inputstring" -> 
+    "Solve[1/4 x (\[Alpha] + \[Psi] (2 \[Rho] + \[Psi] Cos[\[Omega]]) Sin[\
+\[Omega]]) == M, \[Alpha]]"}, Typeset`sessioninfo$$ = {
+   "TimeZone" -> 1., 
+    "Date" -> {2021, 9, 30, 17, 32, 30.7412345`9.240296211154027}, "Line" -> 
+    18, "SessionID" -> 23577336932028942682}, Typeset`showpods$$ = {1, 2}, 
+   Typeset`failedpods$$ = {}, Typeset`chosen$$ = {
+   "Fast parse", "Fast parse", 1, 0, "Input", 
+    "Solve[(1/4)*x*(\[Alpha] + PolyGamma[2*\[Rho] + \
+\[Psi]*Cos[\[Omega]]]*Sin[\[Omega]]) == M, \[Alpha], MaxExtraConditions -> \
+Automatic]"}, Typeset`open$$ = True, Typeset`newq$$ = 
+   "Solve[1/4 x (\[Alpha] + \[Psi] (2 \[Rho] + \[Psi] Cos[\[Omega]]) Sin[\
+\[Omega]]) == M, \[Alpha]]"}, 
+   DynamicBox[ToBoxes[
+     AlphaIntegration`FormatAlphaResults[
+      Dynamic[{
+       1, {Typeset`pod1$$, Typeset`pod2$$}, {Typeset`aux1$$, Typeset`aux2$$}, 
+        Typeset`chosen$$, Typeset`open$$, Typeset`elements$$, Typeset`q$$, 
+        Typeset`opts$$, Typeset`nonpods$$, Typeset`queryinfo$$, 
+        Typeset`sessioninfo$$, Typeset`showpods$$, Typeset`failedpods$$, 
+        Typeset`newq$$}]], StandardForm],
+    ImageSizeCache->{656., {478., 17.}},
+    TrackedSymbols:>{Typeset`showpods$$, Typeset`failedpods$$}],
+   DynamicModuleValues:>{},
+   Initialization:>If[
+     And[
+      Not[Typeset`initdone$$ === True], 
+      Not[Typeset`initdone$$ === FrontEnd`SuppressEvaluationHash[True]]], 
+     Null; WolframAlphaClient`Private`doAsyncUpdates[
+       Hold[{Typeset`pod1$$, Typeset`pod2$$}], Typeset`asyncpods$$, 
+       Dynamic[Typeset`failedpods$$]]; Typeset`asyncpods$$ = {}; 
+     Typeset`initdone$$ = FrontEnd`SuppressEvaluationHash[True]],
+   SynchronousInitialization->False],
+  BaseStyle->{Deployed -> True},
+  DeleteWithContents->True,
+  Editable->False,
+  SelectWithContents->True]], "WolframAlphaShortInput",ExpressionUUID->\
+"edc1d331-78c2-4458-af48-61c82171dbef"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"{", 
+   RowBox[{"\[Alpha]", "\[Rule]", 
+    FractionBox[
+     RowBox[{
+      RowBox[{"4", " ", "M"}], "-", 
+      RowBox[{"x", " ", 
+       RowBox[{"PolyGamma", "[", 
+        RowBox[{"0", ",", 
+         RowBox[{
+          RowBox[{"2", " ", "\[Rho]"}], "+", 
+          RowBox[{"\[Psi]", " ", 
+           RowBox[{"Cos", "[", "\[Omega]", "]"}]}]}]}], "]"}], " ", 
+       RowBox[{"Sin", "[", "\[Omega]", "]"}]}]}], "x"]}], "}"}], 
+  "}"}]], "Output",
+ CellChangeTimes->{3.842008343429531*^9},
+ CellLabel->"Out[17]=",ExpressionUUID->"c48ebbd9-5158-4e96-9eb0-fee020789878"]
+}, Open  ]]
+},
+WindowSize->{1278, 1501},
+WindowMargins->{{Automatic, 280}, {Automatic, 167}},
+TaggingRules->Association["TryRealOnly" -> False],
+FrontEndVersion->"12.3 for Microsoft Windows (64-bit) (July 9, 2021)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"b117ffdc-dc7f-4ab9-8025-b2c442e5afa2"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 6192, 160, 629, "Input",ExpressionUUID->"0e37d7de-939a-4238-ab3d-bccaf98624e0"],
+Cell[6775, 184, 454, 13, 48, "Output",ExpressionUUID->"5bb5db7e-44c4-4784-8468-b56c095ecbb2"],
+Cell[7232, 199, 368, 9, 33, "Output",ExpressionUUID->"ab8e63c0-fe21-4dc7-bcf3-5280297cdc61"],
+Cell[7603, 210, 399, 10, 33, "Output",ExpressionUUID->"19cd4731-d1a2-4cf1-be2e-e6d584aec305"],
+Cell[8005, 222, 613, 15, 33, "Output",ExpressionUUID->"2536d68f-9ba4-45cf-bdcf-0c0c2cb28acf"],
+Cell[8621, 239, 846, 23, 50, "Output",ExpressionUUID->"534f7ac3-5d6d-47be-9a16-b4f1528f9898"],
+Cell[9470, 264, 842, 23, 50, "Output",ExpressionUUID->"e3e5929e-4f0a-40d2-aa38-39c62081fba1"],
+Cell[10315, 289, 578, 16, 50, "Output",ExpressionUUID->"ca20c37b-ae41-4a51-8b0a-ad384a3dd6c8"],
+Cell[10896, 307, 578, 16, 50, "Output",ExpressionUUID->"4e46c7e5-1d62-40a7-b887-8164ae1335d0"],
+Cell[11477, 325, 773, 19, 50, "Output",ExpressionUUID->"34670c47-7d7e-42ef-aa46-4edfe8d01fc2"],
+Cell[12253, 346, 713, 19, 50, "Output",ExpressionUUID->"9224f679-cf53-4bbd-956a-58e0cd79f33a"],
+Cell[12969, 367, 1406, 39, 50, "Output",ExpressionUUID->"98852a23-57cd-4668-9309-76afd08dac1e"],
+Cell[14378, 408, 1099, 30, 73, "Output",ExpressionUUID->"34d409c9-a364-419f-99ff-8f6766981047"],
+Cell[15480, 440, 491, 13, 50, "Output",ExpressionUUID->"4335d93e-8bf6-49ff-8ba1-000d041ae99a"],
+Cell[15974, 455, 558, 15, 50, "Output",ExpressionUUID->"14b0b3ec-2d59-4469-8402-ab0d697b64b2"],
+Cell[16535, 472, 594, 15, 53, "Output",ExpressionUUID->"4590a08f-bcfd-4e27-8f76-2c556b4546dd"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[17166, 492, 615, 16, 50, "Input",ExpressionUUID->"61f9914e-6bda-410d-8c75-07e4c65acc09"],
+Cell[17784, 510, 558, 13, 53, "Output",ExpressionUUID->"97c6b816-b1e5-412f-a635-3ba77e054690"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[18379, 528, 13305, 270, 512, "WolframAlphaShortInput",ExpressionUUID->"edc1d331-78c2-4458-af48-61c82171dbef"],
+Cell[31687, 800, 607, 17, 50, "Output",ExpressionUUID->"c48ebbd9-5158-4e96-9eb0-fee020789878"]
+}, Open  ]]
+}
+]
+*)
+

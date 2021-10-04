@@ -1,10 +1,7 @@
-install.packages("tidyverse")
-install.packages("gridExtra")
 library(gridExtra)
 library(grid)
 library(tidyverse)
 library(ggplot2)
-
 
 ati <- read.csv("2021-09-22_19-57-16_atiData.csv")
 gyro <- read.csv("2021-09-22_19-57-16_gyroData.csv")
@@ -87,6 +84,29 @@ gyro <- read.csv("2021-09-22_19-57-16_gyroData.csv")
     }
 }
 
+# reset timers
+
+ati <- ati[c(3050:83639),]
+
+for (i in 1:nrow(gyro)){gyro$millisElapsed[i] <- (gyro$millis[i+1]- gyro$millis[i])}
+for (i in 2:nrow(gyro)){gyro$millisElapsed[i] <- (gyro$millisElapsed[i] + gyro$millisElapsed[i-1])}
+gyro$millisElapsed[1] = 0
+
+for (i in 1:nrow(ati)){ ati$millisElapsed[i] <- (ati$timeElapsed[i+1]- ati$timeElapsed[i])}
+for (i in 2:nrow(ati)){ati$millisElapsed[i] <- (ati$millisElapsed[i] + ati$millisElapsed[i-1])}
+ati$millisElapsed[1] = 0
+
+ati <- na.omit(ati)
+gyro <- na.omit(gyro)
+
+ggplot() +
+  geom_line(data=ati, aes( x= millisElapsed ,y=Tx_f), color='blue', lwd =1.1)+
+  geom_line(data=gyro, aes( x= millisElapsed ,y=x1), color='red', lwd =0.1)
+
+gyro <- subset(gyro, gyro$millisElapsed < 78050)
+ati <- subset(ati, ati$millisElapsed < 78050)
+
+
 write.csv(gyro,"2021-09-22_19-57-16_gyroData_clean.csv")
 write.csv(ati,"2021-09-22_19-57-16_atiData_clean.csv")
 
@@ -162,6 +182,16 @@ ati <- read.csv("2021-09-22_19-57-16_atiData_clean.csv")
     for (i in 2:nrow(ati6)){ati6$timeElapsed[i] <- (ati6$timeElapsed[i] + ati6$timeElapsed[i-1])}
     ati6$timeElapsed[1] = 0
 }
+
+# disk of the model was off by x2 the weight of the disk, adjust it here
+{
+  gyro$x1 <- gyro$x1/2
+  gyro$y1 <- gyro$y1/2
+  gyro$z1 <- gyro$z1/2
+  gyro$x2 <- gyro$x2/2
+  gyro$y2 <- gyro$y2/2
+  gyro$z2 <- gyro$z2/2
+}  
 
 # gyro data
 {
@@ -316,46 +346,52 @@ ati <- read.csv("2021-09-22_19-57-16_atiData_clean.csv")
 #           PLOT DATA FOR BOTH GRAPHS 
 ###############################################################################
 
+
 # torque graphs
 {
-    ggplot() +
-      geom_line(data=subGyro1, aes( x=millis ,y=y2), color='red')+
-      geom_line(data=subGyro1, aes( x=millis ,y=y1), color='black', linetype = "dashed", lwd =1.5)+
-      geom_line(data=subAti1, aes( x=timeElapsed ,y=Ty_f), color='yellow', linetype = "dashed", lwd =1.5)+
+    p0 <- ggplot() +
+      geom_line(data=subAti1, aes( x=timeElapsed ,y=Tx_f), color='red')+
+      geom_line(data=subGyro1, aes( x=millis ,y=x1), color='black', linetype = "dashed")+
       ggtitle("X Torque")+
-      theme(plot.title = element_text(hjust = 0.5))+
-      labs(x = "Time(ms)", y= "Torque(Nm)")
-    
+      theme(axis.title.x=element_blank(),
+            plot.title = element_text(hjust = 0.5))+
+      labs(y= "Torque(Nm)")
     
     p1 <- ggplot() +
       geom_line(data=subAti1, aes( x=timeElapsed ,y=Ty_f), color='green')+
       geom_line(data=subGyro1, aes( x=millis ,y=y1), color='black', linetype = "dashed")+
       ggtitle("Y Torque")+
-      theme(plot.title = element_text(hjust = 0.5))+
-      labs(x = "Time(ms)", y= "Torque(Nm)")
+      theme(axis.title.x=element_blank(),
+            axis.title.y=element_blank(),
+            plot.title = element_text(hjust = 0.5))+
+      labs(x = "Time(ms)")
     
     p2 <- ggplot() +
       geom_line(data=subAti1, aes( x=timeElapsed ,y=Tz_f), color='blue', )+
       geom_line(data=subGyro1, aes( x=millis ,y=z1), color='black',linetype = "dashed")+
       ggtitle("Z Torque")+
-      theme(plot.title = element_text(hjust = 0.5))+
-      labs(x = "Time(ms)", 
-           y= "Torque(Nm)")
+      theme(axis.title.x=element_blank(),
+            axis.title.y=element_blank(),
+            plot.title = element_text(hjust = 0.5))+
+      labs(x = "Time(ms)")
     
     p3 <- ggplot() +
       geom_line(data=subAti3, aes( x=timeElapsed ,y=Tx_f), color='red')+
       geom_line(data=subGyro3, aes( x=millis ,y=x1), color='black',linetype = "dashed")+
-      labs(x = "Time(ms)", y= "Torque(Nm)")
+      theme(axis.title.x=element_blank())+
+      labs(y= "Torque(Nm)")
     
     p4 <- ggplot() +
       geom_line(data=subAti3, aes( x=timeElapsed ,y=Ty_f), color='green')+
       geom_line(data=subGyro3, aes( x=millis ,y=y1), color='black', linetype = "dashed")+
-      labs(x = "Time(ms)", y= "Torque(Nm)")
-    
+      theme(axis.title.x=element_blank(),
+            axis.title.y=element_blank())
+
     p5 <- ggplot() +
       geom_line(data=subAti3, aes( x=timeElapsed ,y=Tz_f), color='blue')+
       geom_line(data=subGyro3, aes( x=millis ,y=z1), color='black', linetype = "dashed")+
-      labs(x = "Time(ms)", y= "Torque(Nm)")
+      theme(axis.title.x=element_blank(),
+            axis.title.y=element_blank())
     
     p6 <- ggplot() +
       geom_line(data=subAti5, aes( x=as.numeric(row.names(subAti5)) ,y=Tx_f), color='red')+
@@ -365,29 +401,34 @@ ati <- read.csv("2021-09-22_19-57-16_atiData_clean.csv")
     p7 <- ggplot() +
       geom_line(data=subAti5, aes( x=as.numeric(row.names(subAti5)) ,y=Ty_f), color='green')+
       geom_line(data=subGyro5, aes( x=millis ,y=y1), color='black', linetype = "dashed")+
-      labs(x = "Time(ms)", y= "Torque(Nm)")
+      theme(axis.title.y=element_blank())+
+      labs(x = "Time(ms)")
     
     p8 <- ggplot() +
       geom_line(data=subAti5, aes( x=as.numeric(row.names(subAti5)) ,y=Tz_f), color='blue')+
       geom_line(data=subGyro5, aes( x=millis ,y=z1), color='black', linetype = "dashed")+
-      labs(x = "Time(ms)", y= "Torque(Nm)")
+      theme(axis.title.y=element_blank())+
+      labs(x = "Time(ms)")
 }
 
 # vel graphs
 {
-    vel1 <-ggplot() +
+    vel1 <- ggplot() +
       geom_line(data=subGyro1, aes( x=millis ,y=degYaw), color='blue')+
       geom_line(data=subGyro1, aes( x=millis ,y=degPitch), color='green')+
       ggtitle("Yaw & Pitch rotation")+
-      theme(plot.title = element_text(hjust = 0.5))+
-      labs(x = "Time(ms)", y= "Position (deg)")+
+      theme(axis.title.x=element_blank(),
+            plot.title = element_text(hjust = 0.5))+
+      labs( y= "Position (deg)")+
       scale_y_continuous(breaks=seq(0,720,90))
     
     vel2 <-ggplot() +
       geom_line(data=subGyro3, aes( x=millis ,y=degYaw), color='blue')+
       geom_line(data=subGyro3, aes( x=millis ,y=degPitch), color='green')+
-      labs(x = "Time(ms)", y= "Position (deg)")+
-      scale_y_continuous(breaks=seq(0,720,90))
+      labs( y= "Position (deg)")+
+      scale_y_continuous(breaks=seq(0,720,90))+
+      theme(axis.title.x=element_blank())
+      
     
     vel3 <-ggplot() +
       geom_line(data=subGyro5, aes( x=millis ,y=degYaw), color='blue')+
@@ -396,27 +437,49 @@ ati <- read.csv("2021-09-22_19-57-16_atiData_clean.csv")
       scale_y_continuous(breaks=seq(0,720,90))
 }
 
-emp1 <- ggplot()
+emp1 <- ggplot()+ 
+  theme(legend.background = element_rect(fill = "transparent"),
+        legend.box.background = element_rect(fill = "transparent"),
+        panel.background = element_rect(fill = "transparent"),
+        plot.background = element_rect(fill = "transparent", color = NA)
+        )
 
+# create legends 
+plotLeg <- ggplot() +
+  geom_line(data=subAti1, aes( x=timeElapsed ,y=Tx_f, colour = 'Ati X'))+
+  theme(legend.position = "bottom")+
+  scale_colour_manual(name = "Torque", 
+                      values = c("ATI X" = "red",
+                                 "ATI Y" = "green",
+                                 "ATI Z" = "blue",
+                                 "Real Time Calculation" = "black"))
+
+plotLegVel <- ggplot() +
+  geom_line(data=subGyro1, aes( x=millis ,y=degYaw, colour = 'Yaw'))+
+  theme(legend.position = "bottom")+
+  scale_colour_manual(name = "Rotation", 
+                      values = c("Yaw" = "blue",
+                                 "Pitch" = "green"))
+
+get_legend<-function(myggplot){
+  tmp <- ggplot_gtable(ggplot_build(myggplot))
+  leg <- which(sapply(tmp$grobs, function(x) x$name) == "guide-box")
+  legend <- tmp$grobs[[leg]]
+  return(legend)
+}
+
+plotLeg <- get_legend(plotLeg)
+plotLegVel <- get_legend(plotLegVel)
+
+# Draw plots with shared legend
 grid.arrange(
-  emp1,
-  vel1,
-  p0 + ylim(-0.28, 0.28),
-  p1 + ylim(-0.28, 0.28),
-  p2 + ylim(-0.28, 0.28),
-  emp1,
-  vel2,
-  p3 + ylim(-0.28, 0.28),
-  p4 + ylim(-0.28, 0.28),
-  p5 + ylim(-0.28, 0.28),
-  emp1,
-  vel3,
-  p6 + ylim(-0.28, 0.28),
-  p7 + ylim(-0.28, 0.28),
-  p8 + ylim(-0.28, 0.28),
-  nrow = 3,
-  ncol = 5
-  )
+  arrangeGrob(emp1,vel1,p0 + ylim(-0.28, 0.28),p1 + ylim(-0.28, 0.28),p2 + ylim(-0.28, 0.28), ncol = 5),
+  arrangeGrob(emp1,vel2,p3 + ylim(-0.28, 0.28),p4 + ylim(-0.28, 0.28),p5 + ylim(-0.28, 0.28), ncol = 5),
+  arrangeGrob(emp1,vel3,p6 + ylim(-0.28, 0.28),p7 + ylim(-0.28, 0.28),p8 + ylim(-0.28, 0.28), ncol = 5),
+  arrangeGrob(emp1, plotLegVel, plotLeg, ncol = 3, widths = c(1,1,3)),
+  nrow = 4, 
+  heights = c(10, 10, 10, 2))
+  
 
 
 

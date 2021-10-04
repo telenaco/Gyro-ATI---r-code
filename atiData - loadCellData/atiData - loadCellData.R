@@ -1,0 +1,170 @@
+library(grid)
+library(gridExtra)
+library(tidyverse)
+library(ggplot2)
+Sys.time()
+
+
+# To load the data  from your local directory:
+# (Step 1) Click on the Session tab. Step 2) Click on Set Working Directory > To Source File Location. Afterwards, you working directory will be changed to the location of your source file.)
+ati <- read.csv("2021-09-22_01-55-09_FT27437.csv")
+
+loopCount = as.numeric(row.names(ati))
+
+# running average to filter/smooth the data from the ATI 
+ati$Fx_f <- stats::filter(ati$Fx, rep(1/20,20), sides=2)
+ati$Fy_f <- stats::filter(ati$Fy, rep(1/20,20), sides=2)
+ati$Fz_f <- stats::filter(ati$Fz, rep(1/20,20), sides=2)
+ati$Tx_f <- stats::filter(ati$Tx, rep(1/20,20), sides=2)
+ati$Ty_f <- stats::filter(ati$Ty, rep(1/20,20), sides=2)
+ati$Tz_f <- stats::filter(ati$Tz, rep(1/20,20), sides=2)  
+
+{
+  start_time <- Sys.time()
+  for (i in loopCount){
+    s = ati$Time[i]
+    
+    hours = as.numeric(str_sub(s, 2, 3))
+    minutes = as.numeric(str_sub(s, 5, 6))
+    seconds = as.numeric(str_sub(s, 8, 9))
+    millis = as.numeric(str_sub(s, 11, 13))
+    
+    ati$timeElapsed[i] = (((hours*3600)+(minutes*60)+seconds)*1000)+millis
+  }
+  
+  
+  # flag for end of ms    
+  for (i in loopCount){ 
+    if(ati$timeElapsed[i] != ati$timeElapsed[i+1])
+    {
+      ati$newTime[i] = FALSE
+    } 
+    else if (ati$timeElapsed[i] == ati$timeElapsed[i+1])
+    {
+      ati$newTime[i] = TRUE
+    }
+  }
+    
+  
+  end_time <- Sys.time()
+  print(end_time - start_time)
+}
+
+# drop frames that do not contain the averate    
+ati <- subset (ati,ati$newTime == FALSE)
+
+# reset the index order
+row.names(ati) <- NULL
+
+write.csv(ati, "2021-09-22_01-55-09_FT27437_clean.csv")
+
+########################################################################################
+#           TIDY UP DATA BEFORE PLOTTING 
+########################################################################################
+
+ati <- read.csv("2021-09-22_01-55-09_FT27437_clean.csv")
+cell <- read.csv("2021-09-22_01-55-09_cellReading.csv")
+
+# Plot to view the capture data 
+ggplot() +
+  geom_line(data=ati2, aes( x = as.numeric(row.names(ati2)), y=Fx), color='red')+
+  geom_line(data=ati2, aes( x = as.numeric(row.names(ati2)), y=Fy), color='green')+
+  geom_line(data=ati2, aes( x = as.numeric(row.names(ati2)), y=Fz), color='blue')
+
+ggplot() +
+  geom_line(data=cell, aes( x = as.numeric(row.names(cell)), y=x), color='red')+
+  geom_line(data=cell, aes( x = as.numeric(row.names(cell)), y=y), color='green')+
+  geom_line(data=cell, aes( x = as.numeric(row.names(cell)), y=z), color='blue')
+
+# align the begining of the data from both of the dataframes
+cell <- cell[-c(0:40600),]
+row.names(cell)<- NULL
+cell <- cell[c(0:1700),]
+
+ati <- ati[-c(0:3000),]
+row.names(ati)<- NULL
+
+# reset the ellapsed ms to 0 
+for (i in 1:nrow(cell)){cell$ellapsedMs[i] <- (cell$millis[i+1]- cell$millis[i])}
+for (i in 2:nrow(cell)){cell$ellapsedMs[i] <- (cell$ellapsedMs[i] + cell$ellapsedMs[i-1])}
+cell$ellapsedMs[1] = 0
+
+for (i in 1:nrow(ati)){ati$ellapsedMs[i] <- (ati$timeElapsed[i+1]- ati$timeElapsed[i])}
+for (i in 2:nrow(ati)){ati$ellapsedMs[i] <- (ati$ellapsedMs[i] + ati$ellapsedMs[i-1])}
+ati$ellapsedMs[1] = 0
+
+# cell meassures is scale up by, make both frames Nm
+cell$x <-  cell$x/100
+cell$y <-  cell$y/100
+cell$z <-  cell$z/100
+
+cell$x_f <- stats::filter(cell$x, rep(1/5,5), sides=2)
+cell$y_f <- stats::filter(cell$y, rep(1/5,5), sides=2)
+cell$z_f <- stats::filter(cell$z, rep(1/5,5), sides=2)
+
+cell <- na.omit(cell)
+ati <- subset(ati,select = -c(X))
+ati <- na.omit(ati)
+
+
+
+# plot for the X axis
+xPlot <- ggplot() +
+  geom_line(data=ati, aes( x = ellapsedMs, y=Fx_f,colour = 'ati X'), lwd = 2.5)+
+  geom_line(data=cell, aes( x = ellapsedMs, y=x_f, colour = 'cell'), lwd = 0.8)+
+  ggtitle("X Torque")+
+  theme(legend.position = "none",
+        plot.title = element_text(hjust = 0.5))+
+  labs(x = "Time(ms)", 
+       y = "Torque(Nm)")+
+  scale_colour_manual(name = "Readings", 
+                      values = c("ati X" = "red",
+                                 "cell" = "black"))
+
+# plot for the Y axis
+yPlot <- ggplot() +
+  geom_line(data=ati, aes( x = ellapsedMs, y=Fy_f, colour = 'ati Y'), lwd = 2.5)+
+  geom_line(data=cell, aes( x = ellapsedMs, y=y_f, colour = 'cell'), lwd = 0.8)+
+  ggtitle("Y Torque")+
+  theme(legend.position = "none",
+        plot.title = element_text(hjust = 0.5))+
+  labs(x = "Time(ms)", y= "Torque(Nm)")+
+  scale_colour_manual(name = "", 
+                      values = c("ati Y" = "green",
+                      "cell" = "black"))
+
+# plot for the Z axis
+zPlot <- ggplot() +
+  geom_line(data=ati, aes( x = ellapsedMs, y=Fz_f, colour = 'ati Z'),lwd = 2.5)+
+  geom_line(data=cell, aes( x = ellapsedMs, y=z_f, colour = 'cell'),lwd = 0.8)+
+  ggtitle("Z Torque")+
+  theme(legend.position = "none",
+        plot.title = element_text(hjust = 0.5))+
+  labs(x = "Time(ms)", y= "Torque(Nm)")+
+  scale_colour_manual(name = "", 
+                      values = c("ati Z" = "blue", 
+                                 "cell" = "black"))
+
+plotLegend <- ggplot() +
+  geom_line(data=ati, aes( x = ellapsedMs, y=Fx_f,colour = 'ati X'), lwd = 2.5)+
+  theme(legend.position = "bottom")+
+  scale_colour_manual(name = "", 
+                      values = c("Ati X" = "red",
+                                 "Ati Y" = "green",
+                                 "Ati Z" = "blue",
+                                 "Load Cell Readings" = "black"))
+
+get_legend<-function(myggplot){
+  tmp <- ggplot_gtable(ggplot_build(myggplot))
+  leg <- which(sapply(tmp$grobs, function(x) x$name) == "guide-box")
+  legend <- tmp$grobs[[leg]]
+  return(legend)
+}
+
+myLegend <- get_legend(plotLegend)
+
+# Draw plots with shared legend
+grid.arrange(
+  arrangeGrob(xPlot,yPlot,zPlot, ncol = 3),
+             myLegend, nrow = 2, heights = c(10, 1))
+
